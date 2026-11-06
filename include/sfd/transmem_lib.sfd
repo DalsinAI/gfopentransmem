@@ -1,0 +1,26 @@
+==id $Id: transmem_lib.sfd 1.0 (06.11.2026) MIT, AmiCradle Team $
+* transmem.library (GFOpenTransMem): a translation memory on SQLite. This
+* file is the source of the fd, clib and inline files: tools/gen_headers.py
+* makes them.
+==base _TransMemBase
+==basetype struct Library *
+==libname transmem.library
+==bias 30
+==public
+==include <libraries/transmem.h>
+* version 1
+struct TMDatabase * TM_OpenDatabase(CONST_STRPTR name, LONG * error) (a0,a1)
+VOID TM_CloseDatabase(struct TMDatabase * db) (a0)
+LONG TM_Insert(struct TMDatabase * db, CONST struct TMEntry * entry) (a0,a1)
+LONG TM_Delete(struct TMDatabase * db, CONST_STRPTR id) (a0,a1)
+LONG TM_DeleteAll(struct TMDatabase * db) (a0)
+LONG TM_Commit(struct TMDatabase * db) (a0)
+LONG TM_Rollback(struct TMDatabase * db) (a0)
+LONG TM_Search(struct TMDatabase * db, CONST struct TMQuery * query, struct TMResults ** results) (a0,a1,a2)
+LONG TM_SearchSubstring(struct TMDatabase * db, CONST struct TMQuery * query, struct TMResults ** results) (a0,a1,a2)
+VOID TM_FreeResults(struct TMResults * results) (a0)
+LONG TM_ForEach(struct TMDatabase * db, struct Hook * hook) (a0,a1)
+LONG TM_GetStats(struct TMDatabase * db, struct TMStats * stats) (a0,a1)
+CONST_STRPTR TM_ErrorText(struct TMDatabase * db, LONG error) (a0,d0)
+LONG TM_MakeId(CONST struct TMEntry * entry, STRPTR buffer) (a0,a1)
+==end

@@ -1,0 +1,41 @@
+name: build
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PC tests (Poedit's test set)
+        run: sh tests/run_host_tests.sh
+      - name: Against Poedit's own translation memory
+        run: |
+          sudo apt-get install -y -q libsqlite3-dev jlha-utils
+          sh tests/compare-poedit.sh
+      - name: Toolchain, OpenNDK headers, gfopencrypto.library
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v16.2.0-open6 -R DalsinAI/gfopengcc -p 'gfopenamigagcc-16.2.0-open6-x86_64-linux.tar.xz' -p SHA256SUMS -D "$RUNNER_TEMP"
+          (cd "$RUNNER_TEMP" && grep x86_64-linux SHA256SUMS | sha256sum -c - && tar xJf gfopenamigagcc-16.2.0-open6-x86_64-linux.tar.xz)
+          git clone --depth 1 https://github.com/DalsinAI/gfopensdk "$RUNNER_TEMP/gfopensdk"
+          gh release download v1.4 -R DalsinAI/gfopentls -p 'GFOpenTLS-1.4.zip' -D "$RUNNER_TEMP"
+          (cd "$RUNNER_TEMP" && unzip -q GFOpenTLS-1.4.zip -d tls)
+      - name: Amiga build (68040, FPU check)
+        run: PREFIX="$RUNNER_TEMP/gfopenamigagcc-16.2.0-open6-x86_64-linux" NDK_INC="$RUNNER_TEMP/gfopensdk/OpenNDK/Include_H" HOST_TESTS=0 sh build-amiga.sh
+      - name: TMTest on a 68040 (vamos), the same answers as the PC
+        run: |
+          pip install amitools==0.8.1 machine68k==0.3.0 greenlet
+          sh tests/run_vamos.sh "$(find "$RUNNER_TEMP/tls" -name gfopencrypto.library | head -1)"
+      - name: Package
+        run: sh tools/package.sh "1.0-rc1" dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gfopentransmem-dist
+          path: |
+            dist/GFOpenTransMem-*.lha
+            dist/GFOpenTransMem-*.zip
+            dist/SHA256SUMS

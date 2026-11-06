@@ -1,0 +1,30 @@
+open	basic.db
+insert	en	cs	Open File	Otevřít soubor
+insert	en	cs	Open file	Otevřít soubor
+insert	en	cs	Open the file now	Otevřít soubor teď
+insert	en	cs	Save File	Uložit soubor
+insert	en	cs_CZ	Close File	Zavřít soubor
+insert	en	de	Open File	Datei öffnen
+insert	en	cs	Don't save changes to the document	Neukládat změny dokumentu
+insert	en	cs	An error occurred while saving the file to disk	Při ukládání souboru došlo k chybě
+commit
+search	en	cs	Open File
+search	en	cs	open files
+search	en	cs	Close File
+search	en	cs	Open file now
+search	en	cs	Don't save changes to document
+search	en	cs	An error occurred while saving the file
+search	en	de	Open File
+insert	en	cs	Temp	Dočasné
+rollback
+search	en	cs	Temp
+sub	en	cs	file
+stats
+deletefirst	en	cs	Open File
+search	en	cs	Open File
+export
+deleteall
+commit
+stats
+words	Don't SAVE the Ünïcode 東京タワー file's “quotes” x'
+id	en	cs	Open File	Otevřít soubor

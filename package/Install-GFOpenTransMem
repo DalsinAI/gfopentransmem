@@ -1,0 +1,80 @@
+; $VER: Install-GFOpenTransMem 1.0-rc1 (6.11.2026)
+; The Amiga Installer script for GFOpenTransMem: transmem.library, the
+; TransMem command and, if wanted, the SDK and documents.
+; Run it from its icon, beside the GFOpenTransMem drawer where the archive was unpacked.
+
+(set @app-name "GFOpenTransMem")
+(set #version "1.0-rc1")
+(set #drawer "GFOpenTransMem")
+
+(onerror
+    (message (cat "GFOpenTransMem was not installed completely." "\n\n" @error-msg
+                  "\n\nFiles already copied stay where they are. Run Install-GFOpenTransMem again to finish.")))
+
+; the Installer and the CPU
+(if (< @installer-version 2818051)
+    (abort "GFOpenTransMem needs Installer 43.3 or newer. This one is older: install AmigaOS 3.2 or a newer Installer."))
+(set #cpu (database "cpu"))
+(if (not (or (= #cpu "68040") (= #cpu "68060") (= #cpu "68080")))
+    (abort (cat "GFOpenTransMem is built for a 68040, 68060 or 68080. This Amiga has a " #cpu ".")))
+
+; the package: the drawer beside this script
+(set #source (pathonly (expandpath @icon)))
+(set #from (tackon #source #drawer))
+(if (<> (exists (tackon #from "Libs/transmem.library") (noreq)) 1)
+    (abort "The GFOpenTransMem drawer is not beside Install-GFOpenTransMem. Unpack the whole archive, then run Install-GFOpenTransMem from there."))
+
+(welcome (cat "This installs GFOpenTransMem " #version ": transmem.library, a translation memory for programs such as Poedit, and the TransMem command."))
+
+; the library: a newer one already in LIBS: is kept
+(copylib
+    (prompt "Copying transmem.library to LIBS:")
+    (help @copylib-help)
+    (source (tackon #from "Libs/transmem.library"))
+    (dest "LIBS:")
+    (confirm "expert"))
+(complete 40)
+
+; the command
+(copyfiles
+    (prompt "Copying the TransMem command to C:")
+    (help "TransMem looks up, adds, exports and imports translations in a translation memory from the Shell. Type TransMem ? in a Shell for its template.")
+    (source (tackon #from "C"))
+    (dest "C:")
+    (choices "TransMem")
+    (optional "force" "askuser"))
+(complete 60)
+
+; adding entries needs SHA-1 from gfopencrypto.library 2.2 (GFOpenTLS 1.4 or newer)
+(set #crypto (getversion "LIBS:gfopencrypto.library"))
+(if (< #crypto (+ (* 2 65536) 2))
+    (message "transmem.library looks translations up without it, but needs gfopencrypto.library 2.2 or newer in LIBS: to add them. Install GFOpenTLS 1.4 or newer for it."))
+
+; the SDK, the documents and the test, for programmers
+(if (askbool
+        (prompt "Copy the SDK (headers, SFD, FD, libtransmem.a), the documents and TMTest too? Programs that use transmem.library don't need them.")
+        (help "They go in a drawer called GFOpenTransMem in the drawer you choose next.")
+        (choices "Yes" "No")
+        (default 0))
+    (
+        (set #parent
+            (askdir
+                (prompt "Where should the GFOpenTransMem drawer go?")
+                (help "The Installer makes or updates a drawer called GFOpenTransMem in the drawer you choose.")
+                (default (if (= (exists "Work:" (noreq)) 2) "Work:" "SYS:"))))
+        (set #dest (tackon #parent #drawer))
+        (if (<> (exists #dest (noreq)) 2) (makedir #dest))
+        (copyfiles
+            (prompt "Copying the SDK, documents and TMTest")
+            (help @copyfiles-help)
+            (source #from)
+            (dest #dest)
+            (pattern "~(Libs|C)")
+            (optional "force" "askuser"))
+        (set @default-dest #dest)))
+(complete 100)
+(if @pretend
+    (message "Pretend: nothing was copied or changed.")
+    (message (cat "GFOpenTransMem " #version " is installed: transmem.library in LIBS: and TransMem in C:."
+                  "\n\nTry it in a Shell: TransMem ? shows the template.")))
+(exit (quiet))
