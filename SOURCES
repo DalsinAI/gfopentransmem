@@ -1,0 +1,12 @@
+# Upstream sources this library builds (the build scripts fetch them and
+# check their SHA-256 sums; place them in tarballs/ to build offline)
+
+SQLite 3.53.4 (the version DalsinAI/gfopensqlite pins)
+  file:   sqlite-amalgamation-3530400.zip
+  from:   https://www.sqlite.org/2026/sqlite-amalgamation-3530400.zip
+  sha256: 1e71ddf93849c6a6ecf58b827c0692073d2dd7ee40196158068f7b29f422e87d
+
+fpuauto (AmiCradle Team's own, MIT): fpuauto/fpuauto.S and fpuauto.wraps are
+copies of DalsinAI/amicradle-guest common/fpuauto at b343c58 (that repository
+is private, so the build can't fetch them):
+  fpuauto.S sha256: 075b7186a7cb7ff11e0435f0a98eaf407768f0f886536a19dacdbd8f112e01c7

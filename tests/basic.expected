@@ -1,0 +1,36 @@
+open: ok
+Q: Open File
+   1.000000  Open File -> Otevřít soubor [cs] {8cb00505-0efe-5415-856e-fb9a1c2e19b0}
+Q: open files
+   0.665000  Open File -> Otevřít soubor [cs] {8cb00505-0efe-5415-856e-fb9a1c2e19b0}
+   0.325452  Open the file now -> Otevřít soubor teď [cs] {e258bae4-e63c-5c4b-a072-6e01a64b7545}
+Q: Close File
+   1.000000  Close File -> Zavřít soubor [cs_CZ] {06dbb921-c951-5c68-84ed-e27c26b7d89f}
+Q: Open file now
+   0.606163  Open the file now -> Otevřít soubor teď [cs] {e258bae4-e63c-5c4b-a072-6e01a64b7545}
+Q: Don't save changes to document
+   0.760000  Don't save changes to the document -> Neukládat změny dokumentu [cs] {37a822b7-a482-54a0-a198-19d88c9ff067}
+Q: An error occurred while saving the file
+   0.932740  An error occurred while saving the file to disk -> Při ukládání souboru došlo k chybě [cs] {81eb6aeb-6e18-599c-bb11-aaf6ff8a4f34}
+Q: Open File
+   1.000000  Open File -> Datei öffnen [de] {141e5e63-ae46-5c44-a8f9-2877223ad9fa}
+Q: Temp
+Q: file
+   sub:  Open File -> Otevřít soubor [cs] {8cb00505-0efe-5415-856e-fb9a1c2e19b0}
+   sub:  Open file -> Otevřít soubor [cs] {dddfba59-a571-55db-b092-50a3a410f82b}
+   sub:  Save File -> Uložit soubor [cs] {f1d18e26-f8d0-570a-8d7d-77ef9c7ceba7}
+   sub:  Close File -> Zavřít soubor [cs_CZ] {06dbb921-c951-5c68-84ed-e27c26b7d89f}
+entries 8, file size > 0
+Q: Open File
+   0.950000  Open file -> Otevřít soubor [cs] {dddfba59-a571-55db-b092-50a3a410f82b}
+   en	cs	Open file	Otevřít soubor	1700000000	dddfba59-a571-55db-b092-50a3a410f82b
+   en	cs	Open the file now	Otevřít soubor teď	1700000000	e258bae4-e63c-5c4b-a072-6e01a64b7545
+   en	cs	Save File	Uložit soubor	1700000000	f1d18e26-f8d0-570a-8d7d-77ef9c7ceba7
+   en	cs_CZ	Close File	Zavřít soubor	1700000000	06dbb921-c951-5c68-84ed-e27c26b7d89f
+   en	de	Open File	Datei öffnen	1700000000	141e5e63-ae46-5c44-a8f9-2877223ad9fa
+   en	cs	Don't save changes to the document	Neukládat změny dokumentu	1700000000	37a822b7-a482-54a0-a198-19d88c9ff067
+   en	cs	An error occurred while saving the file to disk	Při ukládání souboru došlo k chybě	1700000000	81eb6aeb-6e18-599c-bb11-aaf6ff8a4f34
+export 7
+entries 0, file size > 0
+words: don't@0 save@1 ünïcode@3 東@4 京@5 タ@6 ワ@7 ー@8 file's@9 quotes@10 x@11
+id 8cb00505-0efe-5415-856e-fb9a1c2e19b0
