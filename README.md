@@ -7,6 +7,12 @@ searches, the same scores, the same merging of hits and the same entry
 ids. Made for the Poedit port (DalsinAI/gfamigapoedit), for any program
 that wants one.
 
+![TransMem in a Shell on a 68040 AmiCradle lab](docs/images/transmem-demo.png)
+
+`TransMem` on a 68040 AmiCradle lab (OS 3.2.3, a copy of Instance-24):
+four German entries added, then `SEARCH "Open file"`, `SEARCH "open the
+files"`, `FIND "file"` and `STATS`.
+
 - `transmem.library` for LIBS:, with SQLite 3.53.4 (gfopensqlite's
   version) inside, its files on dos.library.
 - `libtransmem.a`, the link stub (opens `TransMemBase`), and the
@@ -30,9 +36,20 @@ does not take to the FPU, or needs anything outside itself.
 
 ## Tested
 
-On a 68040 AmiCradle lab (OS 3.2.3), 1.0-rc1 from the release package:
+- `tests/run_host_tests.sh`: the core on the PC, AddressSanitizer on, on
+  Poedit's own TM test (`tests/basic.txt`).
+- `tests/compare-poedit.sh`: 300 random entries and 250 random queries a
+  set, five sets, against the Poedit port's SQLite memory itself: every
+  hit, its order and its score to six places the same (1,355 hits, 6
+  November 2026).
+- `tests/run_vamos.sh`: the same commands through `transmem.library` on a
+  68040 under vamos: byte for byte the PC's answers.
 
-![TransMem in a Shell on a 68040 AmiCradle lab](docs/images/transmem-demo.png)
+- AmiCradle lab (68040 with FPU, OS 3.2.3, 6 November 2026): 1.0-rc1
+  from the release package; `TMTest tm-basic.txt` and the `TransMem`
+  run above give the PC's answers.
+
+Not yet run on real Amiga hardware.
 
 ## Licence
 
