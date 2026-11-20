@@ -13,6 +13,7 @@ jobs:
         run: sh tests/run_host_tests.sh
       - name: Against Poedit's own translation memory
         run: |
+          sudo apt-get update -q
           sudo apt-get install -y -q libsqlite3-dev jlha-utils
           sh tests/compare-poedit.sh
       - name: Toolchain, OpenNDK headers, gfopencrypto.library
