@@ -35,7 +35,7 @@ jobs:
         run: PREFIX="$RUNNER_TEMP/gfopenamigagcc-16.2.0-open6-x86_64-linux" NDK_INC="$RUNNER_TEMP/gfopensdk/OpenNDK/Include_H" HOST_TESTS=0 sh build-amiga.sh
       - name: TMTest on a 68040 (vamos)
         run: |
-          pip install amitools==0.8.1 machine68k==0.3.0 greenlet
+          python3 -m pip install --break-system-packages amitools==0.8.1 machine68k==0.3.0 greenlet && export PATH="$HOME/.local/bin:$PATH" && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           sh tests/run_vamos.sh "$(find "$RUNNER_TEMP/tls" -name gfopencrypto.library | head -1)"
       - name: Package and release
         env:
