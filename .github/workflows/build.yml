@@ -6,13 +6,16 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, lumavault]
     steps:
+      - name: gh (bigguy's runners don't have it)
+        run: command -v gh >/dev/null || { S=$([ "$(id -u)" = 0 ] || echo sudo); $S apt-get update -q && $S apt-get install -y -q gh; }
       - uses: actions/checkout@v4
       - name: PC tests (Poedit's test set)
         run: sh tests/run_host_tests.sh
       - name: Against Poedit's own translation memory
         run: |
+          sudo apt-get update -q
           sudo apt-get install -y -q libsqlite3-dev jlha-utils
           sh tests/compare-poedit.sh
       - name: Toolchain, OpenNDK headers, gfopencrypto.library
@@ -28,7 +31,7 @@ jobs:
         run: PREFIX="$RUNNER_TEMP/gfopenamigagcc-16.2.0-open6-x86_64-linux" NDK_INC="$RUNNER_TEMP/gfopensdk/OpenNDK/Include_H" HOST_TESTS=0 sh build-amiga.sh
       - name: TMTest on a 68040 (vamos), the same answers as the PC
         run: |
-          pip install amitools==0.8.1 machine68k==0.3.0 greenlet
+          python3 -m pip install --break-system-packages amitools==0.8.1 machine68k==0.3.0 greenlet && export PATH="$HOME/.local/bin:$PATH" && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           sh tests/run_vamos.sh "$(find "$RUNNER_TEMP/tls" -name gfopencrypto.library | head -1)"
       - name: Package
         run: sh tools/package.sh "1.0-rc1" dist
