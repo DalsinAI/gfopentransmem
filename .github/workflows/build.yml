@@ -8,6 +8,8 @@ jobs:
   build:
     runs-on: [self-hosted, lumavault]
     steps:
+      - name: gh (bigguy's runners don't have it)
+        run: command -v gh >/dev/null || { S=$([ "$(id -u)" = 0 ] || echo sudo); $S apt-get update -q && $S apt-get install -y -q gh; }
       - uses: actions/checkout@v4
       - name: PC tests (Poedit's test set)
         run: sh tests/run_host_tests.sh
